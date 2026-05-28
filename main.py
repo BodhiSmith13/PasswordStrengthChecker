@@ -82,7 +82,8 @@ while password != "exit":
     print(f"Your password has {totalCombos:,} possible combinations.")
 
     if len(password) < 15:
-        print(f"Your password is less than 15 characters long. This is bad.")
+        print(f"Your password is less than 15 characters long. This is bad. "
+              f"\nMake sure to make your next password longer.")
 
     # Calculates amount of time it would take the average computer to guess, assuming 100 billion guesses a second
     timeToGuess = totalCombos / 100000000000
