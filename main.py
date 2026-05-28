@@ -4,67 +4,100 @@ print("Password guidelines:\n"
       "2. Include special characters and/or numbers.\n\n")
 
 # Asks user for password
-password = input("Enter your password: ")
+password = input("Enter your password, or enter exit to cancel: ")
 
-# Initializes score for password
-passwordIntegrity = 0
+# Loops until the user decides to exit
+while password != "exit":
 
-# Initializes lists of punctuation and symbol characters
-punctuationList = ['.', '!', '?', ',', ';', ':', "\"", "\'"]
-symbolList = ['@', '#', '$', '%', '^', '&', '*', '_', '-', '+', '=']
+    # Initializes score for password
+    totalCombos = 0
 
-# Initializes individual counting and scoring metrics
-lowercase = 0
-uppercase = 0
-digits = 0
-punctuation = 0
-symbols = 0
-unidentified = 0
-lowercaseCombo = 0
-uppercaseCombo = 0
-digitsCombo = 0
-punctuationCombo = 0
-symbolsCombo = 0
-unidentifiedCombo = 0
+    # Initializes lists of punctuation and symbol characters
+    punctuationList = ['.', '!', '?', ',', ';', ':', "\"", "\'"]
+    symbolList = ['@', '#', '$', '%', '^', '&', '*', '_', '-', '+', '=']
 
-# Tallies the number of characters present of each type
-for char in password:
-    if char.isalpha() and char.islower():
-        lowercase += 1
-    elif char.isalpha() and char.isupper():
-        uppercase += 1
-    elif char.isdigit():
-        digits += 1
-    elif char in punctuationList:
-        punctuation += 1
-    elif char in symbolList:
-        symbols += 1
-    else:
-        unidentified += 1
+    # Initializes individual counting and scoring metrics
+    lowercase = 0
+    uppercase = 0
+    digits = 0
+    punctuation = 0
+    symbols = 0
+    unidentified = 0
+    lowercaseCombo = 0
+    uppercaseCombo = 0
+    digitsCombo = 0
+    punctuationCombo = 0
+    symbolsCombo = 0
+    unidentifiedCombo = 0
 
-print("Your password has:\n"
-      f"{lowercase} lowercase letters\n"
-      f"{uppercase} uppercase letters\n"
-      f"{digits} digits\n"
-      f"{punctuation} punctuation\n"
-      f"{symbols} symbols\n"
-      f"{unidentified} unidentified characters\n")
+    # Tallies the number of characters present of each type
+    for char in password:
+        if char.isalpha() and char.islower():
+            lowercase += 1
+        elif char.isalpha() and char.isupper():
+            uppercase += 1
+        elif char.isdigit():
+            digits += 1
+        elif char in punctuationList:
+            punctuation += 1
+        elif char in symbolList:
+            symbols += 1
+        else:
+            unidentified += 1
 
-if lowercase != 0:
-    lowercaseCombo = 26**lowercase
-if uppercase != 0:
-    uppercaseCombo = 26**uppercase
-if digits != 0:
-    digitsCombo = 10**digits
-if punctuation != 0:
-    punctuationCombo = len(punctuationList)**punctuation
-if symbols != 0:
-    symbolsCombo = len(symbolList)**symbols
-if unidentified != 0:
-    unidentifiedCombo = (95 - 52 - 10 - len(punctuationList) - len(symbolList))**unidentified
+    # Tells the user how much of each character type their password has
+    print("Your password has:\n"
+          f"{lowercase} lowercase letters\n"
+          f"{uppercase} uppercase letters\n"
+          f"{digits} digits\n"
+          f"{punctuation} punctuation\n"
+          f"{symbols} symbols\n"
+          f"{unidentified} unidentified characters\n")
 
-# Calculates password integrity by finding the number of combinations of the password
-passwordIntegrity += lowercaseCombo + uppercaseCombo + digitsCombo + punctuationCombo + symbolsCombo
+    # For each character type, checks if that character type is present. If so, then calculates the total number of
+    # combinations based on the amount of that character type and the total number of varieties of that character
+    if lowercase != 0:
+        lowercaseCombo = 26**lowercase
+    if uppercase != 0:
+        uppercaseCombo = 26**uppercase
+    if digits != 0:
+        digitsCombo = 10**digits
+    if punctuation != 0:
+        punctuationCombo = len(punctuationList)**punctuation
+    if symbols != 0:
+        symbolsCombo = len(symbolList)**symbols
+    if unidentified != 0:
+        unidentifiedCombo = (95 - 52 - 10 - len(punctuationList) - len(symbolList))**unidentified
 
-print(f"Your password has {passwordIntegrity} possible combinations.")
+    # Calculates password integrity by finding the number of combinations of the password
+    totalCombos += lowercaseCombo + uppercaseCombo + digitsCombo + punctuationCombo + symbolsCombo
+
+    # Displays total number of combos
+    print(f"Your password has {totalCombos:,} possible combinations.")
+
+    # Calculates amount of time it would take the average computer to guess, assuming 100 billion guesses a second
+    timeToGuess = totalCombos / 100000000000
+
+    # Depending on the amount of time, finds the most appropriate unit to display how long the computer would take to
+    # guess the password
+    if timeToGuess < 60:
+        print(f"It would take the average computer {timeToGuess:,.4f} seconds at most to guess your password")
+    elif timeToGuess >= 3154000000:
+        print(f"It would take the average computer {timeToGuess / 3154000000:,.4f} centuries at most to guess your password")
+    elif timeToGuess >= 315400000:
+        print(f"It would take the average computer {timeToGuess / 315400000:,.4f} decades at most to guess your password")
+    elif timeToGuess >= 31540000:
+        print(f"It would take the average computer {timeToGuess / 31540000:,.4f} years at most to guess your password")
+    elif timeToGuess >= 2628000:
+        print(f"It would take the average computer {timeToGuess / 2628000:,.4f} months at most to guess your password")
+    elif timeToGuess >= 604800:
+        print(f"It would take the average computer {timeToGuess / 604800:,.4f} weeks at most to guess your password")
+    elif timeToGuess >= 86400:
+        print(f"It would take the average computer {timeToGuess / 86400:,.4f} days at most to guess your password")
+    elif timeToGuess >= 3600:
+        print(f"It would take the average computer {timeToGuess / 3600:,.4f} hours at most to guess your password")
+    elif timeToGuess >= 60:
+        print(f"It would take the average computer {timeToGuess / 60:,.4f} minutes at most to guess your password")
+
+    password = input("Enter your password, or enter exit to cancel: ")
 
