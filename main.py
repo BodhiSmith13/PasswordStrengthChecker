@@ -11,6 +11,9 @@ while password != "exit":
 
     # Initializes score for password
     totalCombos = 0
+    letterCombos = 0
+    alphanumericCombos = 0
+    symbolCombos = 0
 
     # Initializes lists of punctuation and symbol characters
     punctuationList = ['.', '!', '?', ',', ';', ':', "\"", "\'"]
@@ -70,7 +73,10 @@ while password != "exit":
         unidentifiedCombo = (95 - 52 - 10 - len(punctuationList) - len(symbolList))**unidentified
 
     # Calculates password integrity by finding the number of combinations of the password
-    totalCombos += lowercaseCombo + uppercaseCombo + digitsCombo + punctuationCombo + symbolsCombo
+    totalCombos += lowercaseCombo + uppercaseCombo + digitsCombo + punctuationCombo + symbolsCombo + unidentifiedCombo
+    # letterCombos += lowercaseCombo + uppercaseCombo
+    # alphanumericCombos += lowercaseCombo + uppercaseCombo + digitsCombo
+    # symbolCombos += lowercaseCombo + uppercaseCombo + digitsCombo + punctuationCombo + symbolsCombo + unidentifiedCombo
 
     # Displays total number of combos
     print(f"Your password has {totalCombos:,} possible combinations.")
