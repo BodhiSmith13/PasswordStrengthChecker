@@ -1,3 +1,37 @@
+# Calculates how long it would take to crack password and uses appropriate units
+def crack_time (combos):
+    time_to_guess = combos / 100000000000
+    if time_to_guess < 60:
+        print(f"It would take the average computer {time_to_guess:,.4f} seconds at most to guess your password.\n"
+              f"On average, it would take {time_to_guess / 2:,.4f} seconds.")
+    elif time_to_guess >= 3154000000:
+        print(f"It would take the average computer {time_to_guess / 3154000000:,.4f} centuries at most to guess your "
+              f"password.\nOn average, it would take {time_to_guess / 3154000000 / 2:,.4f} centuries.")
+    elif time_to_guess >= 315400000:
+        print(f"It would take the average computer {time_to_guess / 315400000:,.4f} decades at most to guess your "
+              f"password.\nOn average, it would take {time_to_guess / 315400000 / 2:,.4f} decades.")
+    elif time_to_guess >= 31540000:
+        print(
+            f"It would take the average computer {time_to_guess / 31540000:,.4f} years at most to guess your password."
+            f"\nOn average, it would take {time_to_guess / 31540000 / 2:,.4f} years.")
+    elif time_to_guess >= 2628000:
+        print(
+            f"It would take the average computer {time_to_guess / 2628000:,.4f} months at most to guess your password."
+            f"\nOn average, it would take {time_to_guess / 2628000 / 2:,.4f} months.")
+    elif time_to_guess >= 604800:
+        print(
+            f"It would take the average computer {time_to_guess / 604800:,.4f} weeks at most to guess your password.\n"
+            f"On average, it would take {time_to_guess / 604800 / 2:,.4f} weeks.")
+    elif time_to_guess >= 86400:
+        print(f"It would take the average computer {time_to_guess / 86400:,.4f} days at most to guess your password\n"
+              f"On average, it would take {time_to_guess / 86400 / 2:,.4f} days.")
+    elif time_to_guess >= 3600:
+        print(f"It would take the average computer {time_to_guess / 3600:,.4f} hours at most to guess your password\n"
+              f"On average, it would take {time_to_guess / 3600 / 2:,.4f} hours.")
+    elif time_to_guess >= 60:
+        print(f"It would take the average computer {time_to_guess / 60:,.4f} minutes at most to guess your password\n"
+              f"On average, it would take {time_to_guess / 60 / 2:,.4f} minutes.")
+
 # Introductory message
 print("Password guidelines:\n"
       "1. Make your password at least 15 characters long.\n"
@@ -74,49 +108,30 @@ while password != "exit":
 
     # Calculates password integrity by finding the number of combinations of the password
     totalCombos += lowercaseCombo + uppercaseCombo + digitsCombo + punctuationCombo + symbolsCombo + unidentifiedCombo
-    # letterCombos += lowercaseCombo + uppercaseCombo
-    # alphanumericCombos += lowercaseCombo + uppercaseCombo + digitsCombo
-    # symbolCombos += lowercaseCombo + uppercaseCombo + digitsCombo + punctuationCombo + symbolsCombo + unidentifiedCombo
+    letterCombos += lowercaseCombo + uppercaseCombo
+    alphanumericCombos += lowercaseCombo + uppercaseCombo + digitsCombo
 
-    # Displays total number of combos
-    print(f"Your password has {totalCombos:,} possible combinations.")
-
+    #Checks if length of password is less than 15
     if len(password) < 15:
-        print(f"Your password is less than 15 characters long. This is bad. "
-              f"\nMake sure to make your next password longer.")
+        print("\nYour password is less than 15 characters long. This is too short.\n")
 
-    # Calculates amount of time it would take the average computer to guess, assuming 100 billion guesses a second
-    timeToGuess = totalCombos / 100000000000
-
-    # Depending on the amount of time, finds the most appropriate unit to display how long the computer would take to
-    # guess the password
-    if timeToGuess < 60:
-        print(f"It would take the average computer {timeToGuess:,.4f} seconds at most to guess your password.\n"
-              f"On average, it would take {timeToGuess / 2:,.4f} seconds.")
-    elif timeToGuess >= 3154000000:
-        print(f"It would take the average computer {timeToGuess / 3154000000:,.4f} centuries at most to guess your "
-              f"password.\nOn average, it would take {timeToGuess / 3154000000 / 2:,.4f} centuries.")
-    elif timeToGuess >= 315400000:
-        print(f"It would take the average computer {timeToGuess / 315400000:,.4f} decades at most to guess your "
-              f"password.\nOn average, it would take {timeToGuess / 315400000 / 2:,.4f} decades.")
-    elif timeToGuess >= 31540000:
-        print(f"It would take the average computer {timeToGuess / 31540000:,.4f} years at most to guess your password."
-              f"\nOn average, it would take {timeToGuess / 31540000 / 2:,.4f} years.")
-    elif timeToGuess >= 2628000:
-        print(f"It would take the average computer {timeToGuess / 2628000:,.4f} months at most to guess your password."
-              f"\nOn average, it would take {timeToGuess / 2628000 / 2:,.4f} months.")
-    elif timeToGuess >= 604800:
-        print(f"It would take the average computer {timeToGuess / 604800:,.4f} weeks at most to guess your password.\n"
-              f"On average, it would take {timeToGuess / 604800 / 2:,.4f} weeks.")
-    elif timeToGuess >= 86400:
-        print(f"It would take the average computer {timeToGuess / 86400:,.4f} days at most to guess your password\n"
-              f"On average, it would take {timeToGuess / 86400 / 2:,.4f} days.")
-    elif timeToGuess >= 3600:
-        print(f"It would take the average computer {timeToGuess / 3600:,.4f} hours at most to guess your password\n"
-              f"On average, it would take {timeToGuess / 3600 / 2:,.4f} hours.")
-    elif timeToGuess >= 60:
-        print(f"It would take the average computer {timeToGuess / 60:,.4f} minutes at most to guess your password\n"
-              f"On average, it would take {timeToGuess / 60 / 2:,.4f} minutes.")
+    # Checks if the password contains only letters
+    if password.isalpha():
+        print("\nYour password contains only letters. This is acceptable.\n")
+        print(f"Your password has {letterCombos:,} possible combinations.")
+        crack_time(letterCombos)
+    elif password.isdigit():
+        print("\nYour password contains only digits. This is not good.\n")
+        print(f"Your password has {digitsCombo:,} possible combinations.")
+        crack_time(digitsCombo)
+    elif password.isalnum():
+        print("\nYour password contains only alphanumeric characters. This is acceptable.\n")
+        print(f"Your password has {alphanumericCombos:,} possible combinations.")
+        crack_time(alphanumericCombos)
+    else:
+        print("\nYour password contains a variety of characters. This is great!\n")
+        print(f"Your password has {totalCombos:,} possible combinations.")
+        crack_time(totalCombos)
 
     password = input("Enter your password, or enter exit to cancel: ")
 
