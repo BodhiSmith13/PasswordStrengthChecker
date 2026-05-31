@@ -35,13 +35,14 @@ def crack_time (combos):
 # Introductory message
 print("Password guidelines:\n"
       "1. Make your password at least 15 characters long.\n"
-      "2. Include special characters and/or numbers.\n\n")
-
-# Asks user for password
-password = input("Enter your password, or enter exit to cancel: ")
+      "2. Include a variety of character types.\n"
+      "3. Avoid passwords that are entirely numbers.\n")
 
 # Loops until the user decides to exit
-while password != "exit":
+while True:
+
+    # Asks user for password
+    password = input("Enter your password, or enter exit to cancel: ")
 
     # Initializes score for password
     totalCombos = 0
@@ -113,25 +114,28 @@ while password != "exit":
 
     #Checks if length of password is less than 15
     if len(password) < 15:
-        print("\nYour password is less than 15 characters long. This is too short.\n")
+        print("Your password is less than 15 characters long. This is too short.\n")
 
     # Checks if the password contains only letters
     if password.isalpha():
-        print("\nYour password contains only letters. This is acceptable.\n")
-        print(f"Your password has {letterCombos:,} possible combinations.")
+        print("Your password contains only letters. This is acceptable.\n")
+        print(f"Your password has {letterCombos:,} possible combinations.\n")
         crack_time(letterCombos)
     elif password.isdigit():
-        print("\nYour password contains only digits. This is not good.\n")
-        print(f"Your password has {digitsCombo:,} possible combinations.")
+        print("Your password contains only digits. This is not good.\n")
+        print(f"Your password has {digitsCombo:,} possible combinations.\n")
         crack_time(digitsCombo)
     elif password.isalnum():
-        print("\nYour password contains only alphanumeric characters. This is acceptable.\n")
-        print(f"Your password has {alphanumericCombos:,} possible combinations.")
+        print("Your password contains only alphanumeric characters. This is acceptable.\n")
+        print(f"Your password has {alphanumericCombos:,} possible combinations.\n")
         crack_time(alphanumericCombos)
     else:
-        print("\nYour password contains a variety of characters. This is great!\n")
-        print(f"Your password has {totalCombos:,} possible combinations.")
+        print("Your password contains a variety of characters. This is great!\n")
+        print(f"Your password has {totalCombos:,} possible combinations.\n")
         crack_time(totalCombos)
 
-    password = input("Enter your password, or enter exit to cancel: ")
+    if not password.isdigit() and len(password) >= 15:
+        print(f"Your password {password} is acceptable.")
+        break
+
 
