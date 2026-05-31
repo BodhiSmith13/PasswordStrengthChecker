@@ -1,3 +1,6 @@
+import enchant
+
+d = enchant.Dict("en_US")
 # Calculates how long it would take to crack password and uses appropriate units
 def crack_time (combos):
     print("The average computer can make 100 billion attempts a second at cracking your password.")
@@ -32,6 +35,25 @@ def crack_time (combos):
     elif time_to_guess >= 60:
         print(f"It would take the average computer {time_to_guess / 60:,.4f} minutes at most to guess your password\n"
               f"On average, it would take {time_to_guess / 60 / 2:,.4f} minutes.")
+# For every character in the string, start there. From there, iterate down and up the string, building a larger substring
+# every time. If the substring is a word, save it. Once every character has been through this process, rearrange all words
+# until a sentence is formed. Then, remove all spaces from that sentence, and compare it to the input. If they are the same
+#, an appropriate pass phrase has been inputted
+# def is_phrase (string):
+#     i = 0
+#     while i <= len(string):
+#         j = i + 1
+#         k = i - 1
+#         while j <= len(string):
+#             print(f"Forward: {string[i:j]}")
+#             j += 1
+#
+#         while k >= 0:
+#             print(f"Backward: {string[k:i]}")
+#             k -= 1
+#         i += 1
+#
+# is_phrase("cat")
 
 # Introductory message
 print("Password guidelines:\n"
