@@ -1,5 +1,6 @@
 # Calculates how long it would take to crack password and uses appropriate units
 def crack_time (combos):
+    print("The average computer can make 100 billion attempts a second at cracking your password.")
     time_to_guess = combos / 100000000000
     if time_to_guess < 60:
         print(f"It would take the average computer {time_to_guess:,.4f} seconds at most to guess your password.\n"
@@ -84,7 +85,7 @@ while True:
             unidentified += 1
 
     # Tells the user how much of each character type their password has
-    print("Your password has:\n"
+    print("\nYour password has:\n"
           f"{lowercase} lowercase letters\n"
           f"{uppercase} uppercase letters\n"
           f"{digits} digits\n"
