@@ -41,23 +41,63 @@ def crack_time (combos):
 # until a sentence is formed. Then, remove all spaces from that sentence, and compare it to the input. If they are the same
 #, an appropriate pass phrase has been inputted
 def is_phrase (string):
+    words_right = []
+    words_left = []
+    lengths = []
+    print("Right first")
     i = 0
-    print(f"Length of string: {len(string)}")
     while i < len(string):
-        print(f"Starting again at index {i}")
+        print(f"Starting at character {string[i]} at index {i}")
         j = i
         k = i
         while j < len(string):
-            print(f"j:{j} to {j + 1}")
+            if string[k:j] != "" and d.check(string[k:j]):
+                print(f"Appending {k}:{j}, or {string[k:j]}")
+                words_right.append(string[k:j])
+                lengths.append(len(string[k:j]))
             j += 1
         while k > 0:
-            print(f"k:{k} to {k-1}")
+            if string[k:j] != "" and d.check(string[k:j]):
+                print(f"Appending {k}:{j}, or {string[k:j]}")
+                words_right.append(string[k:j])
+                lengths.append(len(string[k:j]))
             k -= 1
-        print(f"{k} to {j}:{string[k:j]}")
         i += 1
+    print("Left first")
+    i = 0
+    while i < len(string):
+        print(f"Starting at character {string[i]} at index {i}")
+        k = i
+        j = i
+        while k > 0:
+            if string[k:j] != "" and d.check(string[k:j]):
+                print(f"Appending {k}:{j}, or {string[k:j]}")
+                words_left.append(string[k:j])
+                lengths.append(len(string[k:j]))
+            k -= 1
+        while j < len(string):
+            if string[k:j] != "" and d.check(string[k:j]):
+                print(f"Appending {k}:{j}, or {string[k:j]}")
+                words_left.append(string[k:j])
+                lengths.append(len(string[k:j]))
+            j += 1
+        i += 1
+    print("Words right: ", end = "")
+    for word in words_right:
+        print(word, end=" ")
+    print("\nWords left: ", end="")
+    for word in words_left:
+        print(word, end=" ")
+    print()
+    for length in lengths:
+        print(length, end = " ")
+    print()
+    potential_starters = []
 
-cat = "help"
-is_phrase(cat)
+
+
+test = "cat"
+is_phrase(test)
 
 
 # Introductory message
