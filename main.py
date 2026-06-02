@@ -36,67 +36,75 @@ def crack_time (combos):
         print(f"It would take the average computer {time_to_guess / 60:,.4f} minutes at most to guess your password\n"
               f"On average, it would take {time_to_guess / 60 / 2:,.4f} minutes.")
 
-# For every character in the string, start there. From there, iterate down and up the string, building a larger substring
+# For every character in the string, start there. From there, iterate up the string, building a larger substring
 # every time. If the substring is a word, save it. Once every character has been through this process, rearrange all words
 # until a sentence is formed. Then, remove all spaces from that sentence, and compare it to the input. If they are the same
 #, an appropriate pass phrase has been inputted
+
+def display_list (array):
+    for item in array:
+        print(item, end=", ")
+    print()
+
+def mash (array):
+    string = ""
+    for item in array:
+        string += item
+    return string
+
+def remove_duplicants (array):
+    i = 0
+    output = []
+    while i < len(array) - 1:
+        if array[i] not in output:
+            output.append(array[i])
+        i += 1
+    return output
+
 def is_phrase (string):
-    words_right = []
-    words_left = []
-    lengths = []
-    print("Right first")
+    words = []
     i = 0
-    while i < len(string):
-        print(f"Starting at character {string[i]} at index {i}")
+    while i < len(string) + 1:
         j = i
-        k = i
-        while j < len(string):
-            if string[k:j] != "" and d.check(string[k:j]):
-                print(f"Appending {k}:{j}, or {string[k:j]}")
-                words_right.append(string[k:j])
-                lengths.append(len(string[k:j]))
-            j += 1
-        while k > 0:
-            if string[k:j] != "" and d.check(string[k:j]):
-                print(f"Appending {k}:{j}, or {string[k:j]}")
-                words_right.append(string[k:j])
-                lengths.append(len(string[k:j]))
-            k -= 1
-        i += 1
-    print("Left first")
-    i = 0
-    while i < len(string):
-        print(f"Starting at character {string[i]} at index {i}")
-        k = i
-        j = i
-        while k > 0:
-            if string[k:j] != "" and d.check(string[k:j]):
-                print(f"Appending {k}:{j}, or {string[k:j]}")
-                words_left.append(string[k:j])
-                lengths.append(len(string[k:j]))
-            k -= 1
-        while j < len(string):
-            if string[k:j] != "" and d.check(string[k:j]):
-                print(f"Appending {k}:{j}, or {string[k:j]}")
-                words_left.append(string[k:j])
-                lengths.append(len(string[k:j]))
+        while j < len(string) + 1:
+            if ((string[i:j] != "" and
+            d.check(string[i:j])) and
+            (len(string[i:j]) > 1 or string[i:j].lower() == "i" or string[i:j].lower() == "a")):
+                words.append(string[i:j])
             j += 1
         i += 1
-    print("Words right: ", end = "")
-    for word in words_right:
-        print(word, end=" ")
-    print("\nWords left: ", end="")
-    for word in words_left:
-        print(word, end=" ")
-    print()
-    for length in lengths:
-        print(length, end = " ")
-    print()
-    potential_starters = []
+
+    display_list(words)
+
+    starter_words = []
+    for word in words:
+        if word[0] == string[0]:
+            starter_words.append(word)
+    starter_words = remove_duplicants(starter_words)
+
+    display_list(starter_words)
+    for starter_word in starter_words:
+        build_phrase(words, starter_word, string)
+
+
+def build_phrase (words, starter_word, string):
+    phrase = [starter_word]
+    print(f"Starting with {mash(starter_word)}")
+    i = 0
+    for word in words:
+        i += 1
+        print(f"Looking at {word}, word {i} in the word list")
+        if string[0:len(mash(phrase) + word)] == mash(phrase) + word:
+            print(f"Appending {word}")
+            phrase.append(word)
+            print(f"{string[0:len(mash(phrase))]}:{mash(phrase)}")
+            build_phrase(words, mash(phrase), string)
+            break
+    return ""
 
 
 
-test = "cat"
+test = "isitin"
 is_phrase(test)
 
 
