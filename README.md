@@ -12,7 +12,7 @@ The guidelines for password collection were sourced from NIST: https://www.nist.
 
 Example Output:
 ```
-Do you want debug enabled? Input anything for yes, or press enter to continue.
+Do you want debug enabled? Input anything for yes, or press enter to continue.y
 Welcome to Password Strength Checker! Your goal is to create a five star password.
 Password guidelines (ranked in order of how many points they give):
 1. Make your password a passphrase, such as "Sharksseekblood."
@@ -29,6 +29,7 @@ Your password has:
 0 symbols
 0 unidentified characters
 
+Charset size: 10
 Your password is 5 characters long. This is too short.
 
 Your password is not a passphrase.
@@ -54,8 +55,204 @@ Your password has:
 0 symbols
 0 unidentified characters
 
+Charset size: 26
 Your password is 15 characters long. This is great!
 
+Words:
+sh, shark, sharks, ha, hark, harks, a, ar, ark, arks, ks, ss, see, seek, eek, kb, bl, blood, lo, loo, oo, od
+Starter Words:
+sh, shark, sharks, ss, see, seek
+Starting with sh
+Looking at sh, word 1 in the word list
+Looking at shark, word 2 in the word list
+Looking at sharks, word 3 in the word list
+Looking at ha, word 4 in the word list
+Looking at hark, word 5 in the word list
+Looking at harks, word 6 in the word list
+Looking at a, word 7 in the word list
+Appending a
+sha:sha
+Looking at ar, word 8 in the word list
+Appending ar
+shar:shar
+Looking at ark, word 9 in the word list
+Appending ark
+shark:shark
+Looking at arks, word 10 in the word list
+Appending arks
+sharks:sharks
+Looking at ks, word 11 in the word list
+Looking at ss, word 12 in the word list
+Looking at see, word 13 in the word list
+Looking at seek, word 14 in the word list
+Looking at eek, word 15 in the word list
+Looking at kb, word 16 in the word list
+Looking at bl, word 17 in the word list
+Looking at blood, word 18 in the word list
+Looking at lo, word 19 in the word list
+Looking at loo, word 20 in the word list
+Looking at oo, word 21 in the word list
+Looking at od, word 22 in the word list
+sha, shar, shark, sharks
+Starting with sha
+Looking at sh, word 1 in the word list
+Looking at shark, word 2 in the word list
+Looking at sharks, word 3 in the word list
+Looking at ha, word 4 in the word list
+Looking at hark, word 5 in the word list
+Looking at harks, word 6 in the word list
+Looking at a, word 7 in the word list
+Looking at ar, word 8 in the word list
+Looking at ark, word 9 in the word list
+Looking at arks, word 10 in the word list
+Looking at ks, word 11 in the word list
+Looking at ss, word 12 in the word list
+Looking at see, word 13 in the word list
+Looking at seek, word 14 in the word list
+Looking at eek, word 15 in the word list
+Looking at kb, word 16 in the word list
+Looking at bl, word 17 in the word list
+Looking at blood, word 18 in the word list
+Looking at lo, word 19 in the word list
+Looking at loo, word 20 in the word list
+Looking at oo, word 21 in the word list
+Looking at od, word 22 in the word list
+
+Starting with shar
+Looking at sh, word 1 in the word list
+Looking at shark, word 2 in the word list
+Looking at sharks, word 3 in the word list
+Looking at ha, word 4 in the word list
+Looking at hark, word 5 in the word list
+Looking at harks, word 6 in the word list
+Looking at a, word 7 in the word list
+Looking at ar, word 8 in the word list
+Looking at ark, word 9 in the word list
+Looking at arks, word 10 in the word list
+Looking at ks, word 11 in the word list
+Appending ks
+sharks:sharks
+Looking at ss, word 12 in the word list
+Looking at see, word 13 in the word list
+Looking at seek, word 14 in the word list
+Looking at eek, word 15 in the word list
+Looking at kb, word 16 in the word list
+Looking at bl, word 17 in the word list
+Looking at blood, word 18 in the word list
+Looking at lo, word 19 in the word list
+Looking at loo, word 20 in the word list
+Looking at oo, word 21 in the word list
+Looking at od, word 22 in the word list
+sharks
+Starting with sharks
+Looking at sh, word 1 in the word list
+Looking at shark, word 2 in the word list
+Looking at sharks, word 3 in the word list
+Looking at ha, word 4 in the word list
+Looking at hark, word 5 in the word list
+Looking at harks, word 6 in the word list
+Looking at a, word 7 in the word list
+Looking at ar, word 8 in the word list
+Looking at ark, word 9 in the word list
+Looking at arks, word 10 in the word list
+Looking at ks, word 11 in the word list
+Looking at ss, word 12 in the word list
+Looking at see, word 13 in the word list
+Appending see
+sharkssee:sharkssee
+Looking at seek, word 14 in the word list
+Appending seek
+sharksseek:sharksseek
+Looking at eek, word 15 in the word list
+Looking at kb, word 16 in the word list
+Looking at bl, word 17 in the word list
+Looking at blood, word 18 in the word list
+Looking at lo, word 19 in the word list
+Looking at loo, word 20 in the word list
+Looking at oo, word 21 in the word list
+Looking at od, word 22 in the word list
+sharkssee, sharksseek
+Starting with sharkssee
+Looking at sh, word 1 in the word list
+Looking at shark, word 2 in the word list
+Looking at sharks, word 3 in the word list
+Looking at ha, word 4 in the word list
+Looking at hark, word 5 in the word list
+Looking at harks, word 6 in the word list
+Looking at a, word 7 in the word list
+Looking at ar, word 8 in the word list
+Looking at ark, word 9 in the word list
+Looking at arks, word 10 in the word list
+Looking at ks, word 11 in the word list
+Looking at ss, word 12 in the word list
+Looking at see, word 13 in the word list
+Looking at seek, word 14 in the word list
+Looking at eek, word 15 in the word list
+Looking at kb, word 16 in the word list
+Appending kb
+sharksseekb:sharksseekb
+Looking at bl, word 17 in the word list
+Looking at blood, word 18 in the word list
+Looking at lo, word 19 in the word list
+Looking at loo, word 20 in the word list
+Looking at oo, word 21 in the word list
+Looking at od, word 22 in the word list
+sharksseekb
+Starting with sharksseekb
+Looking at sh, word 1 in the word list
+Looking at shark, word 2 in the word list
+Looking at sharks, word 3 in the word list
+Looking at ha, word 4 in the word list
+Looking at hark, word 5 in the word list
+Looking at harks, word 6 in the word list
+Looking at a, word 7 in the word list
+Looking at ar, word 8 in the word list
+Looking at ark, word 9 in the word list
+Looking at arks, word 10 in the word list
+Looking at ks, word 11 in the word list
+Looking at ss, word 12 in the word list
+Looking at see, word 13 in the word list
+Looking at seek, word 14 in the word list
+Looking at eek, word 15 in the word list
+Looking at kb, word 16 in the word list
+Looking at bl, word 17 in the word list
+Looking at blood, word 18 in the word list
+Looking at lo, word 19 in the word list
+Appending lo
+sharksseekblo:sharksseekblo
+Looking at loo, word 20 in the word list
+Appending loo
+sharksseekbloo:sharksseekbloo
+Looking at oo, word 21 in the word list
+Looking at od, word 22 in the word list
+sharksseekblo, sharksseekbloo
+Starting with sharksseekblo
+Looking at sh, word 1 in the word list
+Looking at shark, word 2 in the word list
+Looking at sharks, word 3 in the word list
+Looking at ha, word 4 in the word list
+Looking at hark, word 5 in the word list
+Looking at harks, word 6 in the word list
+Looking at a, word 7 in the word list
+Looking at ar, word 8 in the word list
+Looking at ark, word 9 in the word list
+Looking at arks, word 10 in the word list
+Looking at ks, word 11 in the word list
+Looking at ss, word 12 in the word list
+Looking at see, word 13 in the word list
+Looking at seek, word 14 in the word list
+Looking at eek, word 15 in the word list
+Looking at kb, word 16 in the word list
+Looking at bl, word 17 in the word list
+Looking at blood, word 18 in the word list
+Looking at lo, word 19 in the word list
+Looking at loo, word 20 in the word list
+Looking at oo, word 21 in the word list
+Looking at od, word 22 in the word list
+Appending od
+sharksseekblood:sharksseekblood
+sharksseekblood
+Result: True
 Your password is a passphrase.
 
 Your password contains only letters. This is acceptable.
