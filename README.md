@@ -2,9 +2,8 @@ PasswordStrengthChecker is a password creator coded in Python. The purpose of th
 Passwords are graded based on length, character variety, and whether or not the password is a pass phrase. A pass phrase is a string of words that are easy to remember; so long as the pass phrase is long enough,
 it will be secure. The program first analyzes the content of the password, counting the occurrence of each type of character. These types include lowercase and uppercase letters, digits, punctuation, symbols,
 and all other non-unicode characters. For each character type found, the number of members in that character set are tallied together. Then, the total number of combinations of that password are found by multiplying
-the size of the character set by the length of the password. The total number of combos is then compared to the computational strength of the average computer. The longest and average amount of time to crack the given
-password is then calculated. Finally, the password is graded, with each result being displayed for the user. If the password gets a score of 3 or higher, the password is deemed acceptable and the program ends. Otherwise,
-the program loops until an acceptable password is inputted. 
+the size of the character set by the length of the password. The total number of combos is then compared to the computational strength of the average computer. The longest and average amount of time to crack the givenpassword is then calculated. Finally, the password is graded, with each result being displayed for the user. If the password is a pass phrase, it gets 2 points. If the password is at least 15 characters long,
+it gets 3 points. If the password has letters, digits, and one other character type, it gets 1 point. If the password gets a score of higher than 3, the password is deemed acceptable and the program ends. Otherwise, the program loops until an acceptable password is inputted. 
 
 To build, open the project folder in PyCharm and run the default build configuration. 
 
