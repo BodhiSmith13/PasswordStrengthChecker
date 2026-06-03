@@ -55,7 +55,7 @@ def mash (array):
 def remove_duplicants (array):
     i = 0
     output = []
-    while i < len(array) - 1:
+    while i < len(array):
         if array[i] not in output:
             output.append(array[i])
         i += 1
@@ -74,6 +74,7 @@ def is_phrase (string):
             j += 1
         i += 1
 
+    print("Words:")
     display_list(words)
 
     starter_words = []
@@ -82,9 +83,14 @@ def is_phrase (string):
             starter_words.append(word)
     starter_words = remove_duplicants(starter_words)
 
+    print("Starter Words:")
     display_list(starter_words)
-    for starter_word in starter_words:
-        print(f"Result: {build_phrase(words, starter_word, string)}")
+    if len(starter_words) > 0:
+        for starter_word in starter_words:
+            result = build_phrase(words, starter_word, string)
+            if result:
+                print(f"Result: {result}")
+                break
 
 
 def build_phrase (words, starter_word, string):
@@ -100,14 +106,16 @@ def build_phrase (words, starter_word, string):
             print(f"{string[0:len(new_words[-1])]}:{new_words[-1]}")
     display_list(new_words)
     if string in new_words:
-        return "YOU FUCKING DID IT CHAMP"
+        return "Phrase found"
     for new_word in new_words:
-        return build_phrase(words, new_word, string)
+        result = build_phrase(words, new_word, string)
+        if result:
+            return result
     return ""
 
 
 
-test = "sharksseekblood"
+test = "isitin"
 is_phrase(test)
 
 
