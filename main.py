@@ -84,27 +84,30 @@ def is_phrase (string):
 
     display_list(starter_words)
     for starter_word in starter_words:
-        build_phrase(words, starter_word, string)
+        print(f"Result: {build_phrase(words, starter_word, string)}")
 
 
 def build_phrase (words, starter_word, string):
-    phrase = [starter_word]
+    new_words = []
     print(f"Starting with {mash(starter_word)}")
     i = 0
     for word in words:
         i += 1
         print(f"Looking at {word}, word {i} in the word list")
-        if string[0:len(mash(phrase) + word)] == mash(phrase) + word:
+        if string[0:len(starter_word + word)] == starter_word + word:
             print(f"Appending {word}")
-            phrase.append(word)
-            print(f"{string[0:len(mash(phrase))]}:{mash(phrase)}")
-            build_phrase(words, mash(phrase), string)
-            break
+            new_words.append(starter_word + word)
+            print(f"{string[0:len(new_words[-1])]}:{new_words[-1]}")
+    display_list(new_words)
+    if string in new_words:
+        return "YOU FUCKING DID IT CHAMP"
+    for new_word in new_words:
+        return build_phrase(words, new_word, string)
     return ""
 
 
 
-test = "isitin"
+test = "sharksseekblood"
 is_phrase(test)
 
 
