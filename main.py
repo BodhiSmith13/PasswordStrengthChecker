@@ -58,7 +58,7 @@ def is_phrase (string):
         i += 1
 
     if debug:
-        print(f"Words:")
+        print(f"Words found in password:")
         print(", ".join(words))
 
     starter_words = []
@@ -68,14 +68,14 @@ def is_phrase (string):
     starter_words = list(dict.fromkeys(starter_words))
 
     if debug:
-        print("Starter Words:")
+        print("Words found in password that begin with the first character of the password:")
         print(", ".join(starter_words))
     if len(starter_words) > 0:
         for starter_word in starter_words:
             result = build_phrase(words, starter_word, string)
             if result:
                 if debug:
-                    print(f"Result: {result}")
+                    print(f"Found a phrase that matches the inputted password\n")
                 return True
         return False
     else:
@@ -96,7 +96,7 @@ def build_phrase (words, starter_word, string):
                 print(f"Appending {word}")
             new_words.append(starter_word + word)
             if debug:
-                print(f"{string[0:len(new_words[-1])]}:{new_words[-1]}")
+                print(f"{string[0:len(new_words[-1])]} matches {new_words[-1]}")
     if debug:
         print(", ".join(new_words))
     if string in new_words:
@@ -112,10 +112,10 @@ if not debug:
 
 # Introductory message
 print("Welcome to Password Strength Checker! Your goal is to create a five star password.")
-print("Password guidelines:\n"
-      "1. Make your password at least 15 characters long.\n"
-      "2. Include a variety of character types.\n"
-      "3. Make your password a passphrase, such as \"Sharksseekblood.\"\n")
+print("Password guidelines (ranked in order of how many points they give):\n"
+      "1. Make your password a passphrase, such as \"Sharksseekblood.\"\n"
+      "2. Make your password at least 15 characters long.\n"
+      "3. Include a variety of character types.\n")
 
 # Loops until the user decides to exit
 while True:
@@ -173,6 +173,8 @@ while True:
     if punctuation: charset_size += len(punctuationList)
     if symbols: charset_size += len(symbolList)
     if unidentified: charset_size += unidentifiedCombo
+    if debug:
+        print(f"Charset size: {charset_size}\n")
     totalCombos = charset_size ** len(password)
 
     #Checks if length of password is less than 15
@@ -181,6 +183,12 @@ while True:
         score += 3
     else:
         print(f"Your password is {len(password)} characters long. This is too short.\n")
+
+    if is_phrase(password):
+        print("Your password is a passphrase.\n")
+        score += 2
+    else:
+        print("Your password is not a passphrase.\n")
 
     # Checks if the password contains only letters
     if password.isalpha():
@@ -193,10 +201,6 @@ while True:
         print("Your password contains a variety of characters. This is great!\n")
         score += 1
 
-    if is_phrase(password):
-        print("Your password is a passphrase.\n")
-        score += 2
-
     print(f"Your password has {totalCombos:,} possible combinations.\n")
     crack_time(totalCombos)
 
@@ -205,5 +209,7 @@ while True:
     if score > 3:
         print(f"Your password {password} is acceptable.")
         break
+    else:
+        print(f"Your password {password} is rejected.\n")
 
 
