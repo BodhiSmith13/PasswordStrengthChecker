@@ -269,7 +269,3 @@ On average, it would take 87,128.1454 centuries.
 Your password has scored 5 out of 5 possible points.
 
 Your password Sharksseekblood is acceptable.
-
-Your password has scored 5 out of 5 possible points.
-
-Your password sharksseekblood is acceptable.
