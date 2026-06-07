@@ -38,9 +38,9 @@ def crack_time (combos):
               f"On average, it would take {time_to_guess / 2:,.4f} seconds.\n")
 
 # For every character in the string, start there. From there, iterate up the string, building a larger substring
-# every time. If the substring is a word, save it. Once every character has been through this process, rearrange all words
-# until a sentence is formed. Then, remove all spaces from that sentence, and compare it to the input. If they are the same
-#, an appropriate pass phrase has been inputted
+# every time. If the substring is a word, save it. Once every character has been through this process, rearrange all
+# words until a sentence is formed. Then, remove all spaces from that sentence, and compare it to the input. If they are
+# the same, an appropriate pass phrase has been inputted
 
 def is_phrase (string):
     if not string.isalpha():
@@ -82,6 +82,8 @@ def is_phrase (string):
         return False
 
 
+# Takes a set of words, a starter word, and a target string. Starting with the starter word, randomly arranges words
+# to attempt to build a sentence equal to the target string
 def build_phrase (words, starter_word, string):
     new_words = []
     if debug:
