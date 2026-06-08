@@ -70,6 +70,7 @@ def is_phrase (string):
     if debug:
         print("Words found in password that begin with the first character of the password:")
         print(", ".join(starter_words))
+    # Builds a tree of possible words until the correct one is found or all options have been exhausted
     if len(starter_words) > 0:
         for starter_word in starter_words:
             result = build_phrase(words, starter_word, string)
