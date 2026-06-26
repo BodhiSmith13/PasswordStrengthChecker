@@ -182,13 +182,13 @@ while True:
 
     #Checks if length of password is less than 15
     if len(password) >= 15:
-        print(f"Your password is {len(password)} characters long. This is great!\n")
+        print(f"Your password is {len(password)} characters long. This is great! +3 stars.\n")
         score += 3
     else:
         print(f"Your password is {len(password)} characters long. This is too short.\n")
 
     if is_phrase(password):
-        print("Your password is a passphrase.\n")
+        print("Your password is a passphrase. +2 stars.\n")
         score += 2
     else:
         print("Your password is not a passphrase.\n")
@@ -201,13 +201,13 @@ while True:
     elif password.isalnum():
         print("Your password contains only alphanumeric characters. This is acceptable.\n")
     else:
-        print("Your password contains a variety of characters. This is great!\n")
+        print("Your password contains a variety of characters. This is great! +1 stars.\n")
         score += 1
 
     print(f"Your password has {totalCombos:,} possible combinations.\n")
     crack_time(totalCombos)
 
-    print(f"Your password has scored {score} out of 5 possible points.\n")
+    print(f"Your password has scored {score} out of 5 possible stars.\n")
 
     if score > 3:
         print(f"Your password {password} is acceptable.")
