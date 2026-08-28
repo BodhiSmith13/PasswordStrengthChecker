@@ -1,16 +1,22 @@
-PasswordStrengthChecker is a password creator coded in Python. The purpose of this program is to analyze the strength of inputted passwords in the form of strings and evaluate them based on a grading program.
-Passwords are graded based on length, character variety, and whether or not the password is a pass phrase. A pass phrase is a string of words that are easy to remember; so long as the pass phrase is long enough,
-it will be secure. The program first analyzes the content of the password, counting the occurrence of each type of character. These types include lowercase and uppercase letters, digits, punctuation, symbols,
-and all other non-unicode characters. For each character type found, the number of members in that character set are tallied together. Then, the total number of combinations of that password are found by raising
-the size of the character set to the power of the length of the password. The total number of combos is then compared to the computational strength of the average computer. The longest and average amount of time to crack the givenpassword is then calculated. Finally, the password is graded out of 5, with each result being displayed for the user. If the password is a pass phrase, it gets 2 points. If the password is at least 15 characters long, it gets 3 points. If the password has letters, digits, and one other character type, it gets 1 point. If the password gets a score of higher than 3, the password is deemed acceptable and the program ends. Otherwise, the program loops until an acceptable password is inputted. 
+# Password Strength Checker
 
-To build, open the project folder in PyCharm and install pyenchant via pip. Note that pyenchant also requires a system-level enchant binary. On Windows, download and install the standalone enchant binary from the pyenchant GitHub releases page. On Mac, run brew install enchant. On Linux, run sudo apt install enchant-2. Once both are installed, run the default build configuration in PyCharm.
+A command-line tool that analyzes the strength of a password and scores it out of 5 stars based on length, character variety, and whether it's a passphrase. Rather than relying on arbitrary rules, it estimates the actual number of possible combinations for a given password and converts that into a human-readable "time to crack" estimate.
 
-The guidelines for password collection were sourced from NIST: https://www.nist.gov/cybersecurity-and-privacy/how-do-i-create-good-password
+## How it works
 
-Example Output:
+1. **Character analysis** — the password is scanned and each character is classified into one of six types: lowercase letters, uppercase letters, digits, punctuation, symbols, or unidentified (other) characters.
+2. **Combination count** — for each character type present, its alphabet size (e.g. 26 for lowercase letters) is added to a running total. The total number of possible combinations is then calculated as `alphabet_size ^ password_length`.
+3. **Crack time estimate** — that combination count is compared against an estimated average computer's guessing speed (100 billion attempts/second) to produce a human-readable "time to crack" figure (seconds up to centuries).
+4. **Passphrase detection** — the password is checked to see if it can be fully decomposed into a chain of valid English dictionary words (e.g. `"sharksseekblood"` → `"sharks"` + `"seek"` + `"blood"`), using a dynamic-programming word-break algorithm.
+5. **Scoring** — points are awarded as follows:
+   - **+3** if the password is at least 15 characters long
+   - **+2** if the password is a valid passphrase
+   - **+1** if the password contains at least 3 of the 6 character types (and isn't already a passphrase)
+   - A score **above 3** is considered acceptable; otherwise the program asks for another password.
+
+## Example output
+
 ```
-Do you want debug enabled? Input anything for yes, or press enter to continue.
 Welcome to Password Strength Checker! Your goal is to create a five star password.
 Password guidelines (ranked in order of how many points they give):
 1. Make your password a passphrase, such as "Sharksseekblood."
@@ -27,19 +33,13 @@ Your password has:
 0 symbols
 0 unidentified characters
 
-Your password is 4 characters long. This is too short.
-
-Your password is not a passphrase.
-
-Your password contains only digits. This is not good.
-
 Your password has 10,000 possible combinations.
 
 The average computer can make 100 billion attempts a second at cracking your password.
 It would take the average computer 0.0000 seconds at most to guess your password.
 On average, it would take 0.0000 seconds.
 
-Your password has scored 0 out of 5 possible points.
+Your password has scored 0 out of 5 possible stars.
 
 Your password 1234 is rejected.
 
@@ -53,18 +53,75 @@ Your password has:
 0 symbols
 0 unidentified characters
 
-Your password is 15 characters long. This is great!
-
-Your password is a passphrase.
-
-Your password contains only letters. This is acceptable.
-
 Your password has 54,960,434,128,018,667,122,720,768 possible combinations.
 
 The average computer can make 100 billion attempts a second at cracking your password.
 It would take the average computer 174,256.2908 centuries at most to guess your password.
 On average, it would take 87,128.1454 centuries.
 
-Your password has scored 5 out of 5 possible points.
+Your password has scored 5 out of 5 possible stars.
 
 Your password Sharksseekblood is acceptable.
+```
+
+## Installation
+
+Requires Python 3.10+.
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/BodhiSmith13/PasswordStrengthChecker.git
+   cd PasswordStrengthChecker
+   ```
+
+2. Install dependencies:
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
+
+   This project uses [`pyenchant`](https://pyenchant.github.io/pyenchant/) for dictionary lookups during passphrase detection. `pyenchant` requires a system-level spell-checking backend in addition to the Python package:
+
+   | OS | Command |
+   |---|---|
+   | Windows | Download the standalone `enchant` binary from the [pyenchant releases page](https://github.com/pyenchant/pyenchant/releases) |
+   | macOS | `brew install enchant` |
+   | Linux (Debian/Ubuntu) | `sudo apt install enchant-2` |
+
+## Usage
+
+Run the program from the command line:
+
+```bash
+python main.py
+```
+
+Enable verbose debug output (shows internal character-set sizes, passphrase-detection prefix reachability, etc.):
+
+```bash
+python main.py --debug
+```
+
+Enter a password when prompted, or type `exit` to quit. The program will keep prompting until a password scores above 3 stars.
+
+## Running tests
+
+Tests are written with [`pytest`](https://docs.pytest.org/):
+
+```bash
+python -m pip install pytest
+python -m pytest test_password_checker.py -v
+```
+
+The test suite covers scoring accuracy, character counting, passphrase detection (including edge cases like adjacent valid words separated by a single invalid character, e.g. `"catfcat"`), and two regression tests specifically guarding against bugs found during development:
+- An early implementation of passphrase detection used unmemoized recursion and could hang on inputs with many overlapping dictionary substrings; a timing test guards against this reappearing.
+- An early version of the entropy calculation double-counted unidentified characters' combination count; a regression test locks in the corrected math.
+
+## Known limitations
+
+- Passphrase detection currently only supports the `en_US` dictionary via `pyenchant`.
+- The "unidentified character" alphabet size is a fixed estimate based on printable ASCII; it does not dynamically size for other Unicode ranges (e.g. emoji, non-Latin scripts).
+- `pyenchant` requires a system-level binary as noted above, which adds a setup step beyond a plain `pip install`.
+
+## Guidelines source
+
+Password strength guidelines were informed by [NIST's password guidance](https://www.nist.gov/cybersecurity-and-privacy/how-do-i-create-good-password).
