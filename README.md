@@ -43,25 +43,25 @@ Your password has scored 0 out of 5 possible stars.
 
 Your password 1234 is rejected.
 
-Enter your password, or enter exit to cancel: Sharksseekblood
+Enter your password, or enter exit to cancel: sharksseekblood
 
 Your password has:
-14 lowercase letters
-1 uppercase letters
+15 lowercase letters
+0 uppercase letters
 0 digits
 0 punctuation
 0 symbols
 0 unidentified characters
 
-Your password has 54,960,434,128,018,667,122,720,768 possible combinations.
+Your password has 1,677,259,342,285,725,925,376 possible combinations.
 
 The average computer can make 100 billion attempts a second at cracking your password.
-It would take the average computer 174,256.2908 centuries at most to guess your password.
-On average, it would take 87,128.1454 centuries.
+It would take the average computer 5.3179 centuries at most to guess your password.
+On average, it would take 2.6589 centuries.
 
 Your password has scored 5 out of 5 possible stars.
 
-Your password Sharksseekblood is acceptable.
+Your password sharksseekblood is acceptable.
 ```
 
 ## Installation
