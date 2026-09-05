@@ -1,4 +1,5 @@
 import enchant
+import argparse
 
 debug = False
 d = enchant.Dict("en_US")
@@ -37,109 +38,50 @@ def crack_time (combos):
         print(f"It would take the average computer {time_to_guess:,.4f} seconds at most to guess your password.\n"
               f"On average, it would take {time_to_guess / 2:,.4f} seconds.\n")
 
-# For every character in the string, start there. From there, iterate up the string, building a larger substring
-# every time. If the substring is a word, save it. Once every character has been through this process, rearrange all
-# words until a sentence is formed. Then, remove all spaces from that sentence, and compare it to the input. If they are
-# the same, an appropriate pass phrase has been inputted
+# Create a boolean array `reachable`, sized one longer than the password, with every
+# index False except index 0 (True, since an empty prefix is trivially reachable).
+#
+# For each i from 1 to len(password):
+#   For each j from 0 to i-1:
+#     Skip this j if reachable[j] is False — only extend from prefixes already
+#     proven reachable.
+#     Otherwise, take the substring password[j:i]. If it's longer than 1 character
+#     (or is "a"/"i"), and it's a valid English word, mark reachable[i] = True and
+#     stop checking further j's for this i.
+#   If no valid word was found for any j, reachable[i] stays False.
+#
+# After the loops, reachable[n] tells us whether the whole password can be built
+# from a chain of dictionary words.
 
 def is_phrase (string):
     if not string.isalpha():
         return False
-    words = []
-    i = 0
-    while i < len(string) + 1:
-        j = i
-        while j < len(string) + 1:
-            if ((string[i:j] != "" and
-            d.check(string[i:j])) and
-            (len(string[i:j]) > 1 or string[i:j].lower() == "i" or string[i:j].lower() == "a")):
-                words.append(string[i:j])
-            j += 1
-        i += 1
+    n = len(string)
+    reachable = [False] * (n + 1)
+    reachable[0] = True
+
+    for i in range(1, n + 1):
+        for j in range(i):
+            if not reachable[j]:
+                continue
+            substring = string[j:i]
+            is_valid_single = len(substring) > 1 or substring.lower() in ("a", "i")
+            if is_valid_single and d.check(substring):
+                reachable[i] = True
+                break
 
     if debug:
-        print(f"Words found in password:")
-        print(", ".join(words))
+        print(f"Reachable prefix lengths: {[i for i in range(n+1) if reachable[i]]}")
 
-    starter_words = []
-    for word in words:
-        if word[0] == string[0]:
-            starter_words.append(word)
-    starter_words = list(dict.fromkeys(starter_words))
+    return reachable[n]
 
-    if debug:
-        print("Words found in password that begin with the first character of the password:")
-        print(", ".join(starter_words))
-    # Builds a tree of possible words until the correct one is found or all options have been exhausted
-    if len(starter_words) > 0:
-        for starter_word in starter_words:
-            result = build_phrase(words, starter_word, string)
-            if result:
-                if debug:
-                    print(f"Found a phrase that matches the inputted password\n")
-                return True
-        return False
-    else:
-        return False
+def score_password(password):
 
-
-# Takes a set of words, a starter word, and a target string. Starting with the starter word, randomly arranges words
-# to attempt to build a sentence equal to the target string
-def build_phrase (words, starter_word, string):
-    new_words = []
-    if debug:
-        print(f"Starting with {"".join(starter_word)}")
-    i = 0
-    for word in words:
-        i += 1
-        if debug:
-            print(f"Looking at {word}, word {i} in the word list")
-        if string[0:len(starter_word + word)] == starter_word + word:
-            if debug:
-                print(f"Appending {word}")
-            new_words.append(starter_word + word)
-            if debug:
-                print(f"{string[0:len(new_words[-1])]} matches {new_words[-1]}")
-    if debug:
-        print(", ".join(new_words))
-    if string in new_words:
-        return True
-    for new_word in new_words:
-        result = build_phrase(words, new_word, string)
-        if result:
-            return result
-    return False
-
-if not debug:
-    debug = input("Do you want debug enabled? Input anything for yes, or press enter to continue.")
-
-# Introductory message
-print("Welcome to Password Strength Checker! Your goal is to create a five star password.")
-print("Password guidelines (ranked in order of how many points they give):\n"
-      "1. Make your password a passphrase, such as \"Sharksseekblood.\"\n"
-      "2. Make your password at least 15 characters long.\n"
-      "3. Include a variety of character types.\n")
-
-# Loops until the user decides to exit
-while True:
-
-    # Asks user for password
-    password = input("Enter your password, or enter exit to cancel: ")
-
-    # Initializes lists of punctuation and symbol characters
     punctuationList = ['.', '!', '?', ',', ';', ':', "\"", "\'"]
     symbolList = ['@', '#', '$', '%', '^', '&', '*', '_', '-', '+', '=']
-
     # Initializes individual counting and scoring metrics
-    lowercase = 0
-    uppercase = 0
-    digits = 0
-    punctuation = 0
-    symbols = 0
-    unidentified = 0
-    unidentifiedCombo = 0
-    totalCombos = 0
-    score = 0
+    lowercase = uppercase = digits = punctuation = symbols = unidentified = unidentifiedAlphabetSize = 0
+    isPassphrase = False
 
     # Tallies the number of characters present of each type
     for char in password:
@@ -156,16 +98,7 @@ while True:
         else:
             unidentified += 1
     if unidentified != 0:
-        unidentifiedCombo = (95 - 52 - 10 - len(punctuationList) - len(symbolList)) ** unidentified
-
-    # Tells the user how much of each character type their password has
-    print("\nYour password has:\n"
-          f"{lowercase} lowercase letters\n"
-          f"{uppercase} uppercase letters\n"
-          f"{digits} digits\n"
-          f"{punctuation} punctuation\n"
-          f"{symbols} symbols\n"
-          f"{unidentified} unidentified characters\n")
+        unidentifiedAlphabetSize = (95 - 52 - 10 - len(punctuationList) - len(symbolList))
 
     # For each character type, checks if that character type is present. If so, then calculates the total number of
     # combinations based on the amount of that character type and the total number of varieties of that character
@@ -175,44 +108,75 @@ while True:
     if digits: charset_size += 10
     if punctuation: charset_size += len(punctuationList)
     if symbols: charset_size += len(symbolList)
-    if unidentified: charset_size += unidentifiedCombo
-    if debug:
-        print(f"Charset size: {charset_size}\n")
-    totalCombos = charset_size ** len(password)
+    if unidentified: charset_size += unidentifiedAlphabetSize
+    total_combos = charset_size ** len(password) if password else 0
 
-    #Checks if length of password is less than 15
+    score = 0
     if len(password) >= 15:
-        print(f"Your password is {len(password)} characters long. This is great! +3 stars.\n")
         score += 3
-    else:
-        print(f"Your password is {len(password)} characters long. This is too short.\n")
 
     if is_phrase(password):
-        print("Your password is a passphrase. +2 stars.\n")
+        isPassphrase = True
         score += 2
-    else:
-        print("Your password is not a passphrase.\n")
 
-    # Checks if the password contains only letters
-    if password.isalpha():
-        print("Your password contains only letters. This is acceptable.\n")
-    elif password.isdigit():
-        print("Your password contains only digits. This is not good.\n")
-    elif password.isalnum():
-        print("Your password contains only alphanumeric characters. This is acceptable.\n")
-    else:
-        print("Your password contains a variety of characters. This is great! +1 stars.\n")
-        score += 1
+    charTypes = [lowercase, uppercase, digits, punctuation, symbols, unidentified]
+    if not isPassphrase:
+        charCount = 0
+        for i in charTypes:
+            if i > 0:
+                charCount += 1
+        if charCount >= 3:
+            score += 1
 
-    print(f"Your password has {totalCombos:,} possible combinations.\n")
-    crack_time(totalCombos)
+    return {
+        "lowercase": lowercase, "uppercase": uppercase, "digits": digits,
+        "punctuation": punctuation, "symbols": symbols, "unidentified": unidentified,
+        "total_combos": total_combos, "score": score,
+    }
 
-    print(f"Your password has scored {score} out of 5 possible stars.\n")
+def main():
 
-    if score > 3:
-        print(f"Your password {password} is acceptable.")
-        break
-    else:
-        print(f"Your password {password} is rejected.\n")
+    global debug
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--debug", action="store_true")
+    args = parser.parse_args()
 
 
+    # Introductory message
+    print("Welcome to Password Strength Checker! Your goal is to create a five star password.")
+    print("Password guidelines (ranked in order of how many points they give):\n"
+          "1. Make your password a passphrase, such as \"Sharksseekblood.\"\n"
+          "2. Make your password at least 15 characters long.\n"
+          "3. Include a variety of character types.\n")
+
+    # Loops until the user decides to exit
+    while True:
+
+        # Asks user for password
+        password = input("Enter your password, or enter exit to cancel: ")
+        if password.lower() == "exit":
+            break
+
+        result = score_password(password)
+
+        print("\nYour password has:\n"
+              f"{result['lowercase']} lowercase letters\n"
+              f"{result['uppercase']} uppercase letters\n"
+              f"{result['digits']} digits\n"
+              f"{result['punctuation']} punctuation\n"
+              f"{result['symbols']} symbols\n"
+              f"{result['unidentified']} unidentified characters\n")
+
+        print(f"Your password has {result['total_combos']:,} possible combinations.\n")
+        crack_time(result['total_combos'])
+
+        print(f"Your password has scored {result['score']} out of 5 possible stars.\n")
+
+        if float(result['score']) > 3:
+            print(f"Your password {password} is acceptable.")
+            break
+        else:
+            print(f"Your password {password} is rejected.\n")
+
+if __name__ == "__main__":
+    main()
